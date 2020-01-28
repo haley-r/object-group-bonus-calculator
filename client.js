@@ -31,6 +31,47 @@ const employees = [
   }
 ];
 
+function ratingBonus(employee){
+  let bonusPercentage = 0;
+  if (employee.reviewRating=3){
+    bonusPercentage = 4;
+  }
+  else if (employee.reviewRating = 4){
+    bonusPercentage = 6;
+  }
+  else if (employee.reviewRating = 5) {
+    bonusPercentage = 10;
+  }
+  return bonusPercentage;
+}
+
+function tenYearBonus(employee){
+  let tenYearBonus = 0;
+  if (employee.employeeNumber.length=4){
+    tenYearBonus = 5;
+  }
+  return tenYearBonus;
+}
+
+function incomeAdjustment(employee){
+  let bonusAdjustment = 0;
+  if (Number(employee.annualSalary)>65000){
+    bonusAdjustment = -1;
+  }
+  return bonusAdjustment;
+}
+
+function totalBonusPercentage (employee){
+  return ratingBonus(employee)+tenYearBonus(employee)+incomeAdjustment(employee);
+}
+
+function totalBonus(employee){
+  return totalBonusPercentage(employee)/100*employee.annualSalary;
+}
+
+function totalCompensation(employee){
+  return totalBonus(employee)+Number(employee.annualSalary);
+}
 // YOU SHOULD NOT NEED TO CHANGE ANYTHING ABOVE THIS POINT
 
 // Take small steps! Don't write a for loop and two functions that do all of the calculations right away.
@@ -41,3 +82,27 @@ const employees = [
 // Ask questions when you don't.
 
 console.log( employees );
+console.log(ratingBonus(employees[0]));
+console.log(tenYearBonus(employees[0]));
+console.log(incomeAdjustment(employees[0]));
+console.log(totalBonusPercentage(employees[0]));
+console.log(totalBonus(employees[0]));
+console.log(totalCompensation(employees[0]));
+
+//go through original array, make new Array
+
+function createBonusArray ( employeeArray ){
+  let newBonusArray = [];
+  for ( employeeObject of employeeArray){
+    let bonusObject = {
+      name: employeeObject.name,
+      bonusPercentage: totalBonusPercentage(employeeObject),
+      totalCompensation: totalCompensation(employeeObject),
+      totalBonus: totalBonus(employeeObject)
+    }//end bonusObject
+    newBonusArray.push(bonusObject);
+  }
+  return(newBonusArray);
+}
+
+console.log(createBonusArray(employees));
